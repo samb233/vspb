@@ -1,0 +1,17 @@
+* Vspb
+Self use tool to build vapoursynth plugins with a yaml config file.
+It is yet under development and *unusable* .
+
+* Usage
+** build
+#+begin_src sh
+  go build -o vspb cmd/main.go
+#+end_src
+
+** build vapoursynth plugin list
+Modify the =config.yml= file in example directory and run:
+#+begin_src sh
+  vspb ./example/config.yml
+#+end_src
+
+It would automatically build everything in the config file.

@@ -1,0 +1,586 @@
+general:
+  path: /home/jiesamb/Env/Vapoursynth
+  retry_time: 5
+  verbose: true
+
+packages:
+  - name: python
+    address: https://www.python.org/ftp/python/3.11.1/Python-3.11.1.tar.xz
+    version: 3.11.1
+    env:
+      CFLAGS: ${CFLAGS/-O2/-O3} -ffat-lto-objects
+    run:
+      - ./configure --enable-shared --prefix=/home/jiesamb/Env/vapoursynth
+      - make
+      - make install
+
+  # - name: cython
+  #   dependency:
+  #     - python
+  #   repo:
+  #     unnecessary: true
+  #   make:
+  #     make_cmd: pip install cython
+
+  # - name: meson
+  #   dependency: [python]
+  #   repo:
+  #     unnecessary: true
+  #   make:
+  #     make_cmd: pip install meson
+
+  # - name: ffmpeg
+  #   repo:
+  #     address: https://github.com/AkarinVS/FFmpeg.git
+  #     version: lsmas
+  #   make:
+  #     flag: >-
+  #       --disable-debug
+  #       --disable-doc
+  #       --disable-static
+  #       --disable-stripping
+  #       --enable-libdav1d
+  #       --enable-shared
+  #       --enable-version3
+
+  # - name: zimg
+  #   repo:
+  #     address: https://github.com/sekrit-twc/zimg.git
+  #     version: v3.0
+
+  # - name: vapoursynth-classic
+  #   dependency:
+  #     - python
+  #     - cython
+  #     - meson
+  #     - ffmpeg
+  #     - zimg
+  #   repo:
+  #     address: https://github.com/AmusementClub/vapoursynth-classic.git
+  #     version: R57.A8
+  #   make:
+  #     after_cmd:
+  #       - mkdir empty
+  #       - cd empty
+  #       - pip install vapoursynth --no-index --find-links ../sdist
+# packages:
+#   - name: lsmas
+#     provide: libvslsmashsource.so
+#     repo: https://github.com/AkarinVS/L-SMASH-Works.git
+#     branch: vA.3j
+
+#   - name: akarin
+#     provide: libakarin.so
+#     repo: https://github.com/AkarinVS/vapoursynth-plugin.git
+#     branch: 0.95
+#     flag: --buildtype=release -Dstatic-llvm=false
+
+#   # 编译看起来有点复杂，之后搞
+#   - name: ffms2
+#     skip: true
+#     provide:
+#     repo: https://github.com/FFMS/ffms2.git
+#     branch: 2.40
+#     flag:
+
+#   # 自带滤镜
+#   - name: imwri
+#     skip: true
+#     provide: libimwri.so
+#     repo: https://github.com/vapoursynth/vs-imwri.git
+#     branch: R2
+
+#   - name: fmtc
+#     provide: libfmtconv.so
+#     repo: https://github.com/AmusementClub/fmtconv.git
+#     branch: r29.AC
+#     prepare: |
+#       cd build/unix
+#       autoreconf --verbose --install --force
+
+#   # 自带滤镜
+#   - name: resize
+#     skip: true
+
+#   - name: hist
+#     provide: libhistogram.so
+#     repo: https://github.com/dubhater/vapoursynth-histogram.git
+#     branch: v2.1-AC
+
+#   # 自带滤镜
+#   - name: rgvs
+#     skip: true
+#     provide: libremovegrain.so
+#     repo: https://github.com/vapoursynth/vs-removegrain.git
+#     branch: R1
+
+#   # 依赖yasm
+#   - name: nnedi3
+#     provide: libnnedi3.so
+#     repo: https://github.com/dubhater/vapoursynth-nnedi3.git
+#     branch: v12
+
+#   # branch直接用master
+#   - name: znedi3
+#     skip: true
+#     provide: vsznedi3.so, nnedi3_weights.bin
+#     repo: --recursive https://github.com/sekrit-twc/znedi3.git
+#     make: make X86=1 X86_AVX512=1
+
+#   # CMake
+#   # 需要看一下路径
+#   - name: assrender
+#     provide: libassrender.so
+#     repo: https://github.com/AmusementClub/assrender.git
+#     branch: 0.38.0
+#     after: |
+#       cd build/src
+
+#   # 仅有msvc编译文件
+#   - name: textsub
+#     skip: true
+#     provide:
+#     repo: https://github.com/HomeOfVapourSynthEvolution/xy-VSFilter.git
+#     branch: r3
+
+#   - name: bilateral
+#     provide: libbilateral.so
+#     repo: https://github.com/AmusementClub/VapourSynth-Bilateral.git
+#     branch: r3.AC
+
+#   - name: grain
+#     provide: libaddgrain.so
+#     repo: https://github.com/AmusementClub/VapourSynth-AddGrain.git
+#     branch: r10.AC
+
+#   - name: dfttest
+#     provide: libdfttest.so
+#     repo: https://github.com/AmusementClub/VapourSynth-DFTTest.git
+#     branch: r7.AC
+
+#   # 依赖ispc
+#   - name: nlm-ispc
+#     provide: libvsnlm_ispc.so
+#     repo: https://github.com/AmusementClub/vs-nlm-ispc.git
+#     branch: v2
+#     prepare: |
+#       cmake -S . -B build -D CMAKE_BUILD_TYPE=Release -D CMAKE_ISPC_INSTRUCTION_SETS="sse2-i32x4;avx1-i32x4;avx2-i32x8" -D CMAKE_ISPC_FLAGS="--opt=fast-math"
+
+#   # 依赖tbb
+#   - name: neo_f3kdb
+#     provide: libneo-f3kdb.so
+#     repo: https://github.com/HomeOfAviSynthPlusEvolution/neo_f3kdb.git
+#     branch: r9
+#     prepare: |
+#       mkdir build
+#       cd build
+#       cmake -S .. -B . -DCMAKE_BUILD_TYPE=Release
+
+#   # python 3.11 无法编译
+#   - name: f3kdb
+#     provide: libf3kdb.so
+#     repo: https://github.com/AmusementClub/flash3kyuu_deband.git
+#     branch: 2.0.1-AC
+#     make: |
+#       ./waf configure
+#       ./waf build
+#       cd build
+
+#   # 依赖boost，opencl-headers
+#   # 需要用源地址，娱乐部的无法编译
+#   - name: eedi3m
+#     provide: libeedi3m.so
+#     repo: https://github.com/AmusementClub/VapourSynth-EEDI3.git
+#     branch: r4
+
+#   - name: sangnom
+#     provide: libsangnom.so
+#     repo: https://github.com/dubhater/vapoursynth-sangnom.git
+#     branch: r42
+
+#   - name: eedi2
+#     provide: libeedi2.so
+#     repo: https://github.com/AmusementClub/VapourSynth-EEDI2.git
+#     branch: r7.1-AC
+
+#   - name: tivtc
+#     provide: libtivtc.so
+#     repo: https://github.com/dubhater/vapoursynth-tivtc.git
+#     branch: v2
+
+#   - name: adaptivebinarize
+#     provide: libadaptivebinarize.so
+#     repo: https://github.com/AmusementClub/vapoursynth-adaptivebinarize.git
+#     branch: r1.AC
+
+#   - name: autocrop
+#     provide: libautocrop.so
+#     repo: https://github.com/AmusementClub/vapoursynth-autocrop.git
+#     branch: 0.1-AC
+
+#   # 另外有cuda版，可以研究研究
+#   - name: bm3d
+#     provide: libbm3d.so
+#     repo: https://github.com/AmusementClub/VapourSynth-BM3D.git
+#     branch: r9.AC
+
+#   - name: boxblur
+#     provide: libboxblur.so
+#     repo: https://github.com/AmusementClub/vs-boxblur.git
+#     branch: v3
+
+#   - name: bwdif
+#     provide: libbwdif.so
+#     repo: https://github.com/AmusementClub/VapourSynth-Bwdif.git
+#     branch: r4.1-AC
+
+#   - name: cas
+#     provide: libcas.so
+#     repo: https://github.com/AmusementClub/VapourSynth-CAS.git
+#     branch: r2.AC
+
+#   - name: chickendream
+#     provide: libchickendream.so
+#     repo: https://github.com/EleonoreMizo/chickendream.git
+#     branch: r2
+#     prepare: |
+#       cd build/unix
+#       chmod +x autogen.sh
+#     after: cd .libs
+
+#   # 未找到repo
+#   - name: complane
+#     skip: true
+#     provide:
+#     repo:
+#     branch:
+
+#   - name: CTMF
+#     provide: libctmf.so
+#     repo: https://github.com/HomeOfVapourSynthEvolution/VapourSynth-CTMF.git
+#     branch: r5
+
+#   - name: v2source
+#     provide: libv2source.so
+#     repo: https://github.com/dwbuiten/d2vsource.git
+
+#   - name: dctfilter
+#     provide: libdctfilter.so
+#     repo: https://github.com/AmusementClub/VapourSynth-DCTFilter.git
+#     branch: r3.1A
+
+#   - name: Deblock
+#     provide: libdeblock.so
+#     repo: https://github.com/HomeOfVapourSynthEvolution/VapourSynth-Deblock.git
+
+#   - name: DeblockPP7
+#     provide: libdeblockpp7.so
+#     repo: https://github.com/HomeOfVapourSynthEvolution/VapourSynth-DeblockPP7.git
+
+#   - name: Delogo
+#     provide: libDelogoHD.so
+#     repo: https://github.com/HomeOfAviSynthPlusEvolution/DelogoHD.git
+#     branch: r12
+
+#   - name: descale
+#     provide: libdescale.so
+#     repo: https://github.com/Irrational-Encoding-Wizardry/descale.git
+
+#   # 另有cuda选项
+#   - name: dfttest2
+#     provide: libdfttest2_cpu.so
+#     repo: https://github.com/AmusementClub/vs-dfttest2.git
+#     submodule: true
+#     flag: -D ENABLE_CPU=ON -D ENABLE_CUDA=OFF
+
+#   # yaml 怎么支持输出那段echo呢
+#   - name: DotKill
+#     provide: libdotkill.so
+#     repo: https://github.com/myrsloik/DotKill.git
+#     make: |
+#       echo "all:
+#       g++ -c -std=gnu++17 -fPIC ${CXXFLAGS} ${CPPFLAGS} -I. $(pkg-config --cflags vapoursynth) -o dotkill1.o dotkill1.cpp
+#       g++ -shared -fPIC ${LDFLAGS} -o libdotkill.so dotkill1.o" > Makefile
+
+#   - name: dpid
+#     provide: libdpid.so
+#     repo: https://github.com/WolframRhodium/VapourSynth-dpid.git
+#     branch: r6
+#     prepare: cd Source
+
+#   - name: Edgefixer
+#     provide: libvsedgefixer.so
+#     repo: https://github.com/sekrit-twc/EdgeFixer.git
+#     branch: r2
+#     make: |
+#       echo "all:
+#       gcc -c -fPIC ${CXXFLAGS} ${CPPFLAGS} -I. -I./src/imagine -I./extra $(pkg-config --cflags vapoursynth) -o vsplugin.o EdgeFixer/vsplugin.c
+#       gcc -c -fPIC ${CXXFLAGS} ${CPPFLAGS} -I. -I./src/imagine -I./extra $(pkg-config --cflags vapoursynth) -o edgefixer.o EdgeFixer/edgefixer.c
+#       gcc -shared -fPIC ${LDFLAGS} -o libvsedgefixer.so vsplugin.o edgefixer.o"> Makefile
+
+#   - name: fft3dfilter
+#     provide: libfft3dfilter.so
+#     repo: https://github.com/AmusementClub/VapourSynth-FFT3DFilter.git
+
+#   # 编译有问题
+#   # 可以关注aur和issue
+#   - name: fftspectrum
+#     skip: true
+#     provide:
+#     repo: https://github.com/Beatrice-Raws/FFTSpectrum.git
+
+#   - name: fillborder
+#     provide: libfillborders.so
+#     repo: https://github.com/AmusementClub/vapoursynth-fillborders.git
+#     branch: v2.1-AC
+
+#   - name: frfun7
+#     provide: libfrfun7.so
+#     repo: https://github.com/AmusementClub/vapoursynth-frfun7.git
+#     branch: v2.AC
+
+#   - name: gradcurve
+#     provide: libgradcurve.so
+#     repo: https://github.com/Jieiku/GradCurve.git
+
+#   # 使用cuda
+#   # 之后研究
+#   - name: ils
+#     skip: true
+#     provide:
+#     repo: https://github.com/AmusementClub/VapourSynth-ILS.git
+#     branch:
+
+#   - name: knlmeanscl
+#     provide: libknlmeanscl.so
+#     repo: https://github.com/AmusementClub/KNLMeansCL.git
+#     branch: v1.1.1e-AC
+
+#   - name: awarpsharp2
+#     provide: libawarpsharp2.so
+#     repo: https://github.com/dubhater/vapoursynth-awarpsharp2.git
+#     branch: v4
+
+#   - name: bifrost
+#     provide: libbifrost.so
+#     repo: https://github.com/dubhater/vapoursynth-bifrost.git
+
+#   - name: cnr2
+#     provide: libcnr2.so
+#     repo: https://github.com/dubhater/vapoursynth-cnr2.git
+
+#   - name: decross
+#     provide: libdecross.so
+#     repo: https://github.com/dubhater/vapoursynth-decross.git
+
+#   - name: degrainmedian
+#     provide: libdegrainmedian.so
+#     repo: https://github.com/dubhater/vapoursynth-degrainmedian.git
+
+#   - name: fieldhint
+#     provide: libfieldhint.so
+#     repo: https://github.com/dubhater/vapoursynth-fieldhint.git
+
+#   - name: fluxsmooth
+#     provide: libfluxsmooth.so
+#     repo: https://github.com/dubhater/vapoursynth-fluxsmooth.git
+
+#   # 没有找到任何信息
+#   - name: ftf_em64t_avx_fma
+#     skip: true
+#     provide:
+#     repo:
+#     branch:
+
+#   - name: hqdn3d
+#     provide: libhqdn3d.so
+#     repo: https://github.com/Hinterwaeldlers/vapoursynth-hqdn3d.git
+
+#   - name: minideen
+#     provide: libminideen.so
+#     repo: https://github.com/dubhater/vapoursynth-minideen.git
+#     branch: v2
+
+#   - name: motionmask
+#     provide: libmotionmask.so
+#     repo: https://github.com/dubhater/vapoursynth-motionmask.git
+
+#   - name: msmoosh
+#     provide: libmsmoosh.so
+#     repo: https://github.com/dubhater/vapoursynth-msmoosh.git
+#     branch: v1.1
+
+#   # 依赖nasm, fftw3f, m
+#   - name: mvtools
+#     provide: libmvtools.so
+#     repo: https://github.com/AmusementClub/vapoursynth-mvtools.git
+#     branch: v23.1-AC
+
+#   - name: scxvid
+#     provide: libscxvid.so
+#     repo: https://github.com/dubhater/vapoursynth-scxvid.git
+
+#   # 另有RainbowSmooth.py可供安装
+#   - name: smoothuv
+#     provide: libsmoothuv.so
+#     repo: https://github.com/dubhater/vapoursynth-smoothuv.git
+#     branch: v3
+#     flag: CXXFLAGS="${CXXFLAGS//-march=x86-64 -mtune=generic/-march=native} -fpeel-loops"
+
+#   - name: tcomb
+#     provide: libtcomb.so
+#     repo: https://github.com/dubhater/vapoursynth-tcomb.git
+#     branch: v4
+
+#   - name: temporalsoften2
+#     provide: libtemporalsoften2.so
+#     repo: https://github.com/dubhater/vapoursynth-temporalsoften2.git
+
+#   - name: videoscope
+#     provide: libvidoescope.so
+#     repo: https://github.com/dubhater/vapoursynth-videoscope.git
+
+#   # 娱乐部的改进版不一样
+#   # 需要研究下怎么编译
+#   # 只编译了原版
+#   - name: vs-placebo
+#     provide: libvs_placebo.so
+#     repo: https://github.com/Lypheo/vs-placebo.git
+
+#   # 和便携包里的wwxd64可能不同
+#   # 但好歹是叫这个名儿吧
+#   - name: wwxd
+#     provide: libwwxd.so
+#     repo: https://github.com/dubhater/vapoursynth-wwxd.git
+
+#   # 没有找到repo
+#   - name: minsrp
+#     skip: true
+#     provide:
+#     repo:
+#     branch:
+
+#   # 看起来是nnedi3的cl版本
+#   # 之后研究
+#   - name: nnedi3cl
+#     skip: true
+#     provide:
+#     repo:
+#     branch:
+
+#   - name: mpls
+#     provide: libreadmpls.so
+#     repo: https://github.com/HomeOfVapourSynthEvolution/VapourSynth-ReadMpls.git
+#     branch: r5
+
+#   - name: remapframes
+#     provide: libremapframes.so
+#     repo: https://github.com/Irrational-Encoding-Wizardry/Vapoursynth-RemapFrames.git
+#     branch: v1.1
+
+#   - name: retinex
+#     provide: libretinex.so
+#     repo: https://github.com/HomeOfVapourSynthEvolution/VapourSynth-Retinex.git
+
+#   # 得用clang进行编译
+#   # 并且得使用与clang版本相同的llvm
+#   - name: tcanny
+#     provide: libtcanny.so
+#     repo: https://github.com/AmusementClub/VapourSynth-TCanny.git
+#     branch: r14.AC4
+
+#   # 仓库无人维护
+#   - name: tdeintmod
+#     provide: libtdeintmod.so
+#     repo: https://github.com/HomeOfVapourSynthEvolution/VapourSynth-TDeintMod.git
+
+#   - name: templinearapproximate
+#     provide: libtemplinearapproximate.so
+#     repo: https://bitbucket.org/mystery_keeper/templinearapproximate-vapoursynth.git
+#     make: |
+#       echo "all:
+#       gcc -c -fPIC ${CFLAGS} ${CPPFLAGS} -I. $(pkg-config --cflags vapoursynth) -o main.o src/main.c
+#       gcc -c -fPIC ${CFLAGS} ${CPPFLAGS} -I. $(pkg-config --cflags vapoursynth) -o processplane.o src/processplane.c
+#       gcc -shared -fPIC ${LDFLAGS} -o lib${_plug}.so main.o processplane.o" > Makefile
+
+#   - name: tnlmeans
+#     provide: libtnlmeans.so
+#     repo: https://github.com/AmusementClub/VapourSynth-TNLMeans.git
+#     branch: v1.AC
+
+#   - name: tonemap
+#     provide: libtonemap.so
+#     repo: https://github.com/ifb/vapoursynth-tonemap.git
+#     branch: R2
+
+#   - name: ttempsmooth
+#     provide: libttempsmooth.so
+#     repo: https://github.com/HomeOfVapourSynthEvolution/VapourSynth-TTempSmooth.git
+#     branch: r4.1
+
+#   # 仓库无人维护
+#   - name: vaguedenoiser
+#     provide: libvaguedenoiser.so
+#     repo: https://github.com/HomeOfVapourSynthEvolution/VapourSynth-VagueDenoiser.git
+
+#   - name: vcm
+#     provide: libvcmod.so
+#     repo: https://github.com/AmusementClub/vcm.git
+
+#   - name: vfrtocfr
+#     provide: libvfrtocfr.so
+#     repo: https://github.com/AmusementClub/Vapoursynth-VFRToCFR.git
+
+#   - name: delogo
+#     provide: libdelogo.so
+#     repo: https://github.com/HomeOfVapourSynthEvolution/VapourSynth-DeLogo.git
+#     branch: v0.4
+
+#   # 没有找到repo
+#   - name: avsreader
+#     skip: true
+
+#   - name: vscube
+#     skip: true
+
+#   - name: vsfiltermod
+#     skip: true
+
+#   - name: vsncnn
+#     skip: true
+
+#   - name: nlm_cuda
+#     skip: true
+
+#   - name: nlm_ispc
+#     skip: true
+
+#   - name: vsort
+#     skip: true
+
+#   - name: vsov
+#     skip: true
+
+#   # 仓库无人维护
+#   - name: vsrawsource
+#     provide: libvsrawsource.so
+#     repo: https://github.com/HolyWu/vsrawsource.git
+#     branch: 20191105
+
+#   - name: vstrt
+#     skip: true
+
+#   - name: w3fdif
+#     provide: libw3fdif.so
+#     repo: https://github.com/HomeOfVapourSynthEvolution/VapourSynth-W3FDIF.git
+
+#   # 编译过程相对复杂
+#   # 详见aur
+#   - name: wnnm
+#     repo: https://github.com/AmusementClub/VapourSynth-WNNM.git
+#     skip: true
+
+#   # 仓库无人维护
+#   - name: yadifmod
+#     provide: libyadifmod.so
+#     repo: https://github.com/HomeOfVapourSynthEvolution/VapourSynth-Yadifmod.git
