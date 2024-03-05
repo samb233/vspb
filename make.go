@@ -78,7 +78,7 @@ func (cr *CmdRunner) Run() error {
 			if len(args) != 2 {
 				return fmt.Errorf("'cd' error: '%s'", cmd)
 			}
-			cr.Dir = args[1]
+			cr.Dir = cr.Dir + "/" + args[1]
 			continue
 		}
 
