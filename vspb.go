@@ -21,13 +21,13 @@ func Run(confPath string) error {
 	PluginPath := rootPath + "/plugins"
 
 	if _, err := os.Stat(repoPath); err != nil {
-		if err := os.MkdirAll(repoPath, 0644); err != nil {
+		if err := os.MkdirAll(repoPath, os.ModePerm); err != nil {
 			return fmt.Errorf("mkdir '%s' error: %w", repoPath, err)
 		}
 	}
 
 	if _, err := os.Stat(PluginPath); err != nil {
-		if err := os.MkdirAll(PluginPath, 0644); err != nil {
+		if err := os.MkdirAll(PluginPath, os.ModePerm); err != nil {
 			return fmt.Errorf("mkdir '%s' error: %w", PluginPath, err)
 		}
 	}
