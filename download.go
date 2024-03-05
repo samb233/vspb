@@ -1,6 +1,7 @@
 package vspb
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -11,8 +12,14 @@ import (
 )
 
 func GetPackage(dir string, pkg *Package) error {
-	var repoDir string = dir + "/repos"
-	var path string = repoDir + "/" + pkg.Name
+	repoDir := dir + "/repos"
+	path := repoDir + "/" + pkg.Name
+
+	if _, err := os.Stat(path); err != nil {
+		if err := os.MkdirAll(path, os.ModePerm); err != nil {
+			return fmt.Errorf("mkdir '%s' error: %w", path, err)
+		}
+	}
 
 	if !isGit(pkg.Address) {
 		return grabDownload(pkg.Address, path)
