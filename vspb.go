@@ -39,6 +39,9 @@ func Run(confPath string) error {
 		return fmt.Errorf("read version control file error: %s", err)
 	}
 
+	succeed := make([]string, 0)
+	failed := make([]string, 0)
+	skiped := make([]string, 0)
 	for _, pkg := range conf.Packages {
 		fmt.Printf("build: %s, version: %s\n", pkg.Name, pkg.Version)
 		installed, err := vc.GetPackage(pkg.Name)
@@ -48,6 +51,7 @@ func Run(confPath string) error {
 
 		if installed.ID > 0 && installed.Version == pkg.Version && !installed.Failed {
 			fmt.Printf("already installed, skip")
+			skiped = append(skiped, pkg.Name)
 			continue
 		}
 		// TODO:
@@ -64,6 +68,7 @@ func Run(confPath string) error {
 			if err := vc.CreatePkgInfo(info); err != nil {
 				fmt.Println("save version control info error: ", err)
 			}
+			failed = append(failed, pkg.Name)
 			continue
 		}
 
@@ -81,6 +86,7 @@ func Run(confPath string) error {
 				if err := vc.CreatePkgInfo(info); err != nil {
 					fmt.Println("save version control info error: ", err)
 				}
+				failed = append(failed, pkg.Name)
 				continue
 			}
 
@@ -93,6 +99,7 @@ func Run(confPath string) error {
 			if err := vc.CreatePkgInfo(info); err != nil {
 				fmt.Println("save version control info error: ", err)
 			}
+			failed = append(failed, pkg.Name)
 			continue
 		}
 
@@ -108,6 +115,7 @@ func Run(confPath string) error {
 			if err := vc.CreatePkgInfo(info); err != nil {
 				fmt.Println("save version control info error: ", err)
 			}
+			failed = append(failed, pkg.Name)
 			continue
 		}
 
@@ -116,6 +124,7 @@ func Run(confPath string) error {
 		}
 
 		fmt.Printf("success: build: %s, version: %s\n", pkg.Name, pkg.Version)
+		succeed = append(succeed, pkg.Name)
 	}
 
 	return nil

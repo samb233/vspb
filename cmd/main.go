@@ -1,17 +1,17 @@
 package main
 
 import (
-	"fmt"
+	"os"
 	"vspb"
 )
 
 func main() {
-	conf, err := vspb.ReadConfig("")
-	if err != nil {
-		panic(err)
+	confPath := "config.yml"
+	if len(os.Args) > 1 {
+		confPath = os.Args[1]
 	}
 
-	fmt.Println(conf.Packages[0].Env)
-
-	fmt.Printf("%v", conf)
+	if err := vspb.Run(confPath); err != nil {
+		panic(err)
+	}
 }

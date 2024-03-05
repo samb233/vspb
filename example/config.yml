@@ -1,5 +1,5 @@
 general:
-  path: /home/jiesamb/Env/Vapoursynth
+  path: /home/jiesamb/Env/vapoursynth
   retry_time: 5
   verbose: true
 
@@ -8,8 +8,10 @@ packages:
     address: https://www.python.org/ftp/python/3.11.1/Python-3.11.1.tar.xz
     version: 3.11.1
     env:
-      CFLAGS: ${CFLAGS/-O2/-O3} -ffat-lto-objects
+      CFLAGS: -ffat-lto-objects
     run:
+      - tar -xf Python-3.11.1.tar.xz
+      - cd Python-3.11.1
       - ./configure --enable-shared --prefix=/home/jiesamb/Env/vapoursynth
       - make
       - make install
