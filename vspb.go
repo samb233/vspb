@@ -50,7 +50,7 @@ func Run(confPath string) error {
 		}
 
 		if installed.ID > 0 && installed.Version == pkg.Version && !installed.Failed {
-			fmt.Printf("already installed, skip")
+			fmt.Println("already installed, skip")
 			skiped = append(skiped, pkg.Name)
 			continue
 		}
@@ -74,12 +74,23 @@ func Run(confPath string) error {
 		}
 
 		pkgPath := repoPath + "/" + pkg.Name
+		pkgEnv := pkg.Env
+		if pkgEnv == nil {
+			pkgEnv = make(map[string]string)
+		}
 		builder := &CmdRunner{
-			Env:     pkg.Env,
+			Env:     pkgEnv,
 			Dir:     pkgPath,
 			Cmds:    pkg.Run,
 			Verbose: conf.General.Verbose,
 		}
+
+		sysPath := os.Getenv("PATH")
+		sysPath = rootPath + "/bin:" + sysPath
+		builder.SetEnv("PATH", sysPath)
+
+		builder.SetEnv("PKG_CONFIG_PATH", rootPath+"/lib/pkgconfig/")
+
 		if len(builder.Cmds) == 0 {
 			makeTool, err := MatchMakeTool(pkgPath)
 			if err != nil {
@@ -95,7 +106,7 @@ func Run(confPath string) error {
 		}
 
 		if err := builder.Run(); err != nil {
-			fmt.Printf("build failed: %s", err)
+			fmt.Printf("\nbuild failed: %s\n", err)
 			info.Failed = true
 			if err := vc.CreatePkgInfo(info); err != nil {
 				fmt.Println("save version control info error: ", err)
