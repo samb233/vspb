@@ -15,7 +15,7 @@ func GetPackage(dir string, pkg *Package) error {
 	var path string = repoDir + "/" + pkg.Name
 
 	if !isGit(pkg.Address) {
-		return grabDownload(pkg.Address, repoDir)
+		return grabDownload(pkg.Address, path)
 	}
 
 	_, err := os.Stat(path)
