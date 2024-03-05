@@ -130,5 +130,22 @@ func Run(confPath string) error {
 		succeed = append(succeed, pkg.Name)
 	}
 
+	fmt.Println("Building result: ")
+
+	fmt.Printf("\nsucceed: \n")
+	for _, pkg := range succeed {
+		fmt.Println("  ", pkg)
+	}
+
+	fmt.Printf("\nfailed: \n")
+	for _, pkg := range failed {
+		fmt.Println("  ", pkg)
+	}
+
+	fmt.Printf("\nskiped: \n")
+	for _, pkg := range skiped {
+		fmt.Println("  ", pkg)
+	}
+
 	return nil
 }
