@@ -60,6 +60,10 @@ func (c *CmdRunner) SetEnv(key, value string) {
 }
 
 func (cr *CmdRunner) Run() error {
+	if len(cr.Cmds) == 0 {
+		return fmt.Errorf("empty cmds")
+	}
+
 	// TODO: choose a shell
 	shell := "bash"
 
@@ -107,7 +111,7 @@ func (cr *CmdRunner) Run() error {
 }
 
 func DefaultMaker(maketool int) []string {
-	var cmds []string
+	cmds := make([]string, 0)
 	if maketool == MAKE_TOOL_MESON {
 		cmds = []string{
 			"meson setup build",
