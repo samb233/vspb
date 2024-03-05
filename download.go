@@ -21,6 +21,10 @@ func GetPackage(dir string, pkg *Package) error {
 		}
 	}
 
+	if len(pkg.Address) == 0 {
+		return nil
+	}
+
 	if !isGit(pkg.Address) {
 		return grabDownload(pkg.Address, path)
 	}
