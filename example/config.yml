@@ -1,7 +1,7 @@
 general:
   path: /home/jiesamb/Env/vapoursynth
   retry_time: 5
-  verbose: true
+  verbose: false
 
 packages:
   - name: python
@@ -12,7 +12,9 @@ packages:
     run:
       - tar -xf Python-3.11.1.tar.xz
       - cd Python-3.11.1
-      - ./configure --enable-shared --prefix=/home/jiesamb/Env/vapoursynth
+      - mkdir build
+      - cd build
+      - ../configure --enable-shared --prefix=/home/jiesamb/Env/vapoursynth
       - make
       - make install
 
