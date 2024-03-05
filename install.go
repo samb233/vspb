@@ -9,17 +9,18 @@ import (
 )
 
 type Installer struct {
-	FromDir  string
-	Filename string
-	ToDir    string
+	FromDir string
+	ToDir   string
+
+	Filenames string
 }
 
 func (i Installer) Install() error {
 	fileList := make([]string, 0)
-	if strings.Contains(i.Filename, ",") {
-		fileList = strings.Split(i.Filename, ",")
+	if strings.Contains(i.Filenames, ",") {
+		fileList = strings.Split(i.Filenames, ",")
 	} else {
-		fileList = append(fileList, i.Filename)
+		fileList = append(fileList, i.Filenames)
 	}
 
 	needInstall := len(fileList)
@@ -58,7 +59,7 @@ func (i Installer) Install() error {
 	// TODO:
 	// which file not exists
 	if installed != needInstall {
-		return fmt.Errorf("file %s not exists", i.Filename)
+		return fmt.Errorf("file %s not exists", i.Filenames)
 	}
 
 	return nil
