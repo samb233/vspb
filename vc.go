@@ -34,7 +34,7 @@ type PkgInfo struct {
 
 func (vc *VersionControl) GetPackage(name string) (*PkgInfo, error) {
 	info := &PkgInfo{}
-	if err := vc.db.Model(info).Where("name = ?", name).Error; err != nil {
+	if err := vc.db.Model(info).Where("name = ?", name).Find(info).Error; err != nil {
 		return nil, err
 	}
 	return info, nil
