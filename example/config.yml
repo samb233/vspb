@@ -18,13 +18,10 @@ packages:
       - make
       - make install
 
-  # - name: cython
-  #   dependency:
-  #     - python
-  #   repo:
-  #     unnecessary: true
-  #   make:
-  #     make_cmd: pip install cython
+  - name: cython
+    version: 0.29.36
+    run:
+      - pip3 install cython==0.29.36
 
   # - name: meson
   #   dependency: [python]
