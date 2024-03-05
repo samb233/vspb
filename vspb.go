@@ -104,20 +104,22 @@ func Run(confPath string) error {
 			continue
 		}
 
-		installer := &Installer{
-			FromDir:   pkgPath + "/build",
-			ToDir:     PluginPath,
-			Filenames: pkg.Provide,
-		}
-
-		if err := installer.Install(); err != nil {
-			fmt.Printf("install failed: %s", err)
-			info.Failed = true
-			if err := vc.CreatePkgInfo(info); err != nil {
-				fmt.Println("save version control info error: ", err)
+		if len(pkg.Provide) > 0 {
+			installer := &Installer{
+				FromDir:   pkgPath + "/build",
+				ToDir:     PluginPath,
+				Filenames: pkg.Provide,
 			}
-			failed = append(failed, pkg.Name)
-			continue
+
+			if err := installer.Install(); err != nil {
+				fmt.Printf("install failed: %s", err)
+				info.Failed = true
+				if err := vc.CreatePkgInfo(info); err != nil {
+					fmt.Println("save version control info error: ", err)
+				}
+				failed = append(failed, pkg.Name)
+				continue
+			}
 		}
 
 		if err := vc.CreatePkgInfo(info); err != nil {
