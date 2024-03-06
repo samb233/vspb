@@ -1,7 +1,7 @@
 general:
   path: /home/jiesamb/Env/vapoursynth
   retry_time: 5
-  verbose: false
+  verbose: true
 
 packages:
   - name: python
@@ -23,47 +23,48 @@ packages:
     run:
       - pip3 install cython==0.29.36
 
-  # - name: meson
-  #   dependency: [python]
-  #   repo:
-  #     unnecessary: true
-  #   make:
-  #     make_cmd: pip install meson
+  - name: meson
+    version: 1.3.2
+    run:
+      - pip3 install meson==1.3.2
 
-  # - name: ffmpeg
-  #   repo:
-  #     address: https://github.com/AkarinVS/FFmpeg.git
-  #     version: lsmas
-  #   make:
-  #     flag: >-
-  #       --disable-debug
-  #       --disable-doc
-  #       --disable-static
-  #       --disable-stripping
-  #       --enable-libdav1d
-  #       --enable-shared
-  #       --enable-version3
+  - name: ffmpeg
+    address: https://github.com/AkarinVS/FFmpeg.git
+    version: lsmas
+    version_is_branch: true
+    run:
+      - mkdir build
+      - cd build
+      - ../configure --disable-debug --disable-doc --disable-static --disable-stripping --enable-libdav1d --enable-shared --enable-version3 --prefix=/home/jiesamb/Env/vapoursynth
+      - make
+      - make install
 
-  # - name: zimg
-  #   repo:
-  #     address: https://github.com/sekrit-twc/zimg.git
-  #     version: v3.0
+  - name: zimg
+    address: https://github.com/sekrit-twc/zimg.git
+    version: release-3.0.5
+    run:
+      - ./autogen.sh
+      - mkdir build
+      - cd build
+      - ../configure --prefix=/home/jiesamb/Env/vapoursynth
+      - make
+      - make install
 
-  # - name: vapoursynth-classic
-  #   dependency:
-  #     - python
-  #     - cython
-  #     - meson
-  #     - ffmpeg
-  #     - zimg
-  #   repo:
-  #     address: https://github.com/AmusementClub/vapoursynth-classic.git
-  #     version: R57.A8
-  #   make:
-  #     after_cmd:
-  #       - mkdir empty
-  #       - cd empty
-  #       - pip install vapoursynth --no-index --find-links ../sdist
+  - name: vapoursynth-classic
+    address: https://github.com/AmusementClub/vapoursynth-classic.git
+    version: R57.A8
+    run:
+      - ./autogen.sh
+      - ./configure --prefix=/home/jiesamb/Env/vapoursynth
+      - make -j2
+      - make install
+      - python3 setup.py sdist -d sdist
+      - mkdir empty
+      - cd empty
+      - pip3 install vapoursynth --no-index --find-links ../sdist
+      - cd ../
+      - python3 -m unittest discover -s test -p "*test.py"
+
 # packages:
 #   - name: lsmas
 #     provide: libvslsmashsource.so
