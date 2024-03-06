@@ -65,10 +65,26 @@ packages:
       - cd ../
       - python3 -m unittest discover -s test -p "*test.py"
 
+  - name: lsmash
+    repo: https://github.com/l-smash/l-smash.git
+    run:
+      - mv configure configure.old
+      - sed 's/-Wl,--version-script,liblsmash.ver//g' configure.old >configure
+      - chmod +x configure
+      - mkdir build
+      - cd build
+      - ../configure --disable-static --prefix=/home/jiesamb/Env/vapoursynth
+      - make lib -j2
+      - make install-lib -j2
+
   - name: lsmas
     provide: libvslsmashsource.so
     repo: https://github.com/AkarinVS/L-SMASH-Works.git
-    branch: vA.3j
+    version: vA.3j
+    run:
+      - cd VapourSynth
+      - meson setup ../build
+      - ninja -C ../build
 
 #   - name: akarin
 #     provide: libakarin.so
