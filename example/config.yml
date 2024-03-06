@@ -86,11 +86,26 @@ packages:
       - meson setup ../build
       - ninja -C ../build
 
-#   - name: akarin
-#     provide: libakarin.so
-#     repo: https://github.com/AkarinVS/vapoursynth-plugin.git
-#     branch: 0.95
-#     flag: --buildtype=release -Dstatic-llvm=false
+  - name: akarin
+    provide: libakarin.so
+    repo: https://github.com/AkarinVS/vapoursynth-plugin.git
+    branch: 0.96
+    dependencies:
+      - llvm15
+      - llvm15-libs
+    env:
+      LLVM_CONFIG: /usr/bin/llvm-config-15
+    run:
+      - meson setup build --buildtype=release -Dstatic-llvm=false
+      - ninja -C build
+
+  - name: vspreview
+    repo: https://github.com/AkarinVS/vapoursynth-preview.git
+    version: R57.A4
+    run:
+      - pip3 install -r requirements.txt
+      - cp -r vspreview /home/jiesamb/Env/vapoursynth/lib/python3.11/site-packages/vspreview
+
 
 #   # 编译看起来有点复杂，之后搞
 #   - name: ffms2
