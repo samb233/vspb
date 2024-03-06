@@ -1,0 +1,2 @@
+export PATH="${HOME}/Env/vapoursynth/bin:$PATH"
+export PYTHONPATH="${HOME}/Env/vapoursynth/scrpts:$PYTHONPATH"
