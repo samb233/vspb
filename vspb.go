@@ -88,9 +88,10 @@ func Run(confPath string) error {
 
 		sysPath := os.Getenv("PATH")
 		sysPath = rootPath + "/bin:" + sysPath
-		builder.SetEnv("PATH", sysPath)
 
+		builder.SetEnv("PATH", sysPath)
 		builder.SetEnv("PKG_CONFIG_PATH", rootPath+"/lib/pkgconfig/")
+		builder.SetEnv("LD_LIBRARY_PATH", rootPath+"/lib")
 
 		if len(builder.Cmds) == 0 {
 			makeTool, err := MatchMakeTool(pkgPath)
