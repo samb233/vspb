@@ -20,7 +20,7 @@ func MatchMakeTool(dir string) (int, error) {
 		return -1, err
 	}
 
-	builder := 0
+	builder := 7
 	for _, file := range files {
 		switch file.Name() {
 		case "meson.build":
@@ -137,9 +137,9 @@ func DefaultMaker(maketool int) []string {
 
 	if maketool == MAKE_TOOL_AUTOMAKE_GEN {
 		cmds = []string{
+			"./autogen.sh",
 			"mkdir build",
 			"cd build",
-			"../autogen.sh",
 			"../configure",
 			"make",
 		}
