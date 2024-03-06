@@ -27,7 +27,7 @@ type Package struct {
 	// 并复制到 path/plugins 路径中
 	Provide string `yaml:"provide"`
 
-	Address string `yaml:"address"`
+	Repo    string `yaml:"repo"`
 	Version string `yaml:"version"`
 
 	// default should be a tag or git hash

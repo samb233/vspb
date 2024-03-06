@@ -21,17 +21,17 @@ func GetPackage(dir string, pkg *Package) error {
 		}
 	}
 
-	if len(pkg.Address) == 0 {
+	if len(pkg.Repo) == 0 {
 		return nil
 	}
 
-	if !isGit(pkg.Address) {
-		return grabDownload(pkg.Address, path)
+	if !isGit(pkg.Repo) {
+		return grabDownload(pkg.Repo, path)
 	}
 
 	// TODO:
 	// if already exists, check the version of repo
-	return gitClone(pkg.Address, pkg.Version, path, pkg.VersionIsBranch)
+	return gitClone(pkg.Repo, pkg.Version, path, pkg.VersionIsBranch)
 }
 
 func grabDownload(addr, repoDir string) error {

@@ -63,7 +63,7 @@ func Run(confPath string) error {
 			Version: pkg.Version,
 		}
 
-		fmt.Println("get package from: ", pkg.Address)
+		fmt.Println("get package from: ", pkg.Repo)
 		if err := GetPackage(rootPath, pkg); err != nil {
 			fmt.Printf("download failed: %s", err)
 			info.Failed = true
