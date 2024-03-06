@@ -29,16 +29,9 @@ func GetPackage(dir string, pkg *Package) error {
 		return grabDownload(pkg.Address, path)
 	}
 
-	_, err := os.Stat(path)
-	if os.IsNotExist(err) {
-		return gitClone(pkg.Address, pkg.Version, path)
-	} else {
-		return gitPull(pkg.Address, pkg.Version, path)
-	}
-
 	// TODO:
 	// if already exists, check the version of repo
-
+	return gitClone(pkg.Address, pkg.Version, path, pkg.VersionIsBranch)
 }
 
 func grabDownload(addr, repoDir string) error {
@@ -46,7 +39,7 @@ func grabDownload(addr, repoDir string) error {
 	return err
 }
 
-func gitClone(addr, version, path string) error {
+func gitClone(addr, version, path string, isBranch bool) error {
 	var needCheckout bool = false
 
 	abs, err := filepath.Abs(path)
@@ -65,7 +58,11 @@ func gitClone(addr, version, path string) error {
 	} else {
 		cloneOpts.Depth = 1
 		if len(version) > 0 {
-			cloneOpts.ReferenceName = plumbing.NewTagReferenceName(version)
+			if isBranch {
+				cloneOpts.ReferenceName = plumbing.NewBranchReferenceName(version)
+			} else {
+				cloneOpts.ReferenceName = plumbing.NewTagReferenceName(version)
+			}
 		}
 	}
 

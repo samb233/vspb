@@ -49,13 +49,14 @@ func Run(confPath string) error {
 			fmt.Println("get version control info error: ", err)
 		}
 
+		// TODO:
+		// 1. when it failed, reinstall it;
+		// 2. when the version diff, update it
 		if installed.ID > 0 && installed.Version == pkg.Version && !installed.Failed {
 			fmt.Println("already installed, skip")
 			skiped = append(skiped, pkg.Name)
 			continue
 		}
-		// TODO:
-		// update the package if the version is different
 
 		info := &PkgInfo{
 			Name:    pkg.Name,

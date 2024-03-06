@@ -30,6 +30,9 @@ type Package struct {
 	Address string `yaml:"address"`
 	Version string `yaml:"version"`
 
+	// default should be a tag or git hash
+	VersionIsBranch bool `yaml:"version_is_branch"`
+
 	// 环境变量
 	Env map[string]string `yaml:"env"`
 
