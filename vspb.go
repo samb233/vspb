@@ -43,6 +43,10 @@ func Run(confPath string) error {
 	failed := make([]string, 0)
 	skiped := make([]string, 0)
 	for _, pkg := range conf.Packages {
+		if pkg.Skip {
+			continue
+		}
+
 		fmt.Printf("build: %s, version: %s\n", pkg.Name, pkg.Version)
 		installed, err := vc.GetPackage(pkg.Name)
 		if err != nil {
@@ -119,7 +123,7 @@ func Run(confPath string) error {
 
 		if len(pkg.Provide) > 0 {
 			installer := &Installer{
-				FromDir:   pkgPath + "/build",
+				FromDir:   pkgPath,
 				ToDir:     PluginPath,
 				Filenames: pkg.Provide,
 			}
