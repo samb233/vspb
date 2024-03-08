@@ -516,6 +516,16 @@ packages:
     provide: libyadifmod.so
     repo: https://github.com/HomeOfVapourSynthEvolution/VapourSynth-Yadifmod.git
 
+  - name: vsmlrt-trt
+    provide: libvstrt.so
+    repo: https://github.com/AmusementClub/vs-mlrt.git
+    dependencies: tensort
+    run:
+      - ln -s /usr/bin/trtexec /home/jiesamb/Env/vapoursynth/plugins/vsmlrt-cuda/trtexec
+      - cd vstrt
+      - cmake -S . -B build -G Ninja -LA -D CMAKE_BUILD_TYPE=Release -D VAPOURSYNTH_INCLUDE_DIRECTORY="/home/jiesamb/Env/vapoursynth/include/vapoursynth" -D CMAKE_CXX_COMPILER=g++-12 -D CMAKE_CXX_FLAGS="-Wall -ffast-math -march=x86-64-v3"
+      - cmake --build build
+
 
 #   # 编译看起来有点复杂，之后搞
 #   - name: ffms2
