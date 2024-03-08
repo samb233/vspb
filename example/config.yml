@@ -415,170 +415,106 @@ packages:
     provide: libretinex.so
     repo: https://github.com/HomeOfVapourSynthEvolution/VapourSynth-Retinex.git
 
-#   # 依赖nasm, fftw3f, m
-#   - name: mvtools
-#     provide: libmvtools.so
-#     repo: https://github.com/AmusementClub/vapoursynth-mvtools.git
-#     version: v23.1-AC
+  - name: mvtools
+    dependencies: nasm,fftw
+    provide: libmvtools.so
+    repo: https://github.com/AmusementClub/vapoursynth-mvtools.git
+    version: v23.1-AC
 
-#   - name: scxvid
-#     provide: libscxvid.so
-#     repo: https://github.com/dubhater/vapoursynth-scxvid.git
+  - name: scxvid
+    provide: libscxvid.so
+    repo: https://github.com/dubhater/vapoursynth-scxvid.git
 
-#   # 另有RainbowSmooth.py可供安装
-#   - name: smoothuv
-#     provide: libsmoothuv.so
-#     repo: https://github.com/dubhater/vapoursynth-smoothuv.git
-#     version: v3
-#     flag: CXXFLAGS="${CXXFLAGS//-march=x86-64 -mtune=generic/-march=native} -fpeel-loops"
+  - name: smoothuv
+    provide: libsmoothuv.so
+    repo: https://github.com/dubhater/vapoursynth-smoothuv.git
+    version: v3
+    env:
+      CXXFLAGS: "-march=x86-64 -fpeel-loops"
 
-#   - name: tcomb
-#     provide: libtcomb.so
-#     repo: https://github.com/dubhater/vapoursynth-tcomb.git
-#     version: v4
+  - name: tcomb
+    provide: libtcomb.so
+    repo: https://github.com/dubhater/vapoursynth-tcomb.git
+    version: v4
 
-#   - name: temporalsoften2
-#     provide: libtemporalsoften2.so
-#     repo: https://github.com/dubhater/vapoursynth-temporalsoften2.git
+  - name: temporalsoften2
+    provide: libtemporalsoften2.so
+    repo: https://github.com/dubhater/vapoursynth-temporalsoften2.git
 
-#   - name: videoscope
-#     provide: libvidoescope.so
-#     repo: https://github.com/dubhater/vapoursynth-videoscope.git
+  - name: videoscope
+    provide: libvideoscope.so
+    repo: https://github.com/dubhater/vapoursynth-videoscope.git
 
-#   # 娱乐部的改进版不一样
-#   # 需要研究下怎么编译
-#   # 只编译了原版
-#   - name: vs-placebo
-#     provide: libvs_placebo.so
-#     repo: https://github.com/Lypheo/vs-placebo.git
+  - name: wwxd
+    provide: libwwxd.so
+    repo: https://github.com/dubhater/vapoursynth-wwxd.git
+    run:
+      - |
+        echo "all:
+        	  gcc -c -fPIC -Wall -Wextra -Wno-unused-parameter   -I. -I/home/jiesamb/Env/vapoursynth/include/vapoursynth -o wwxd.o src/wwxd.c
+        	  gcc -c -fPIC -Wall -Wextra -Wno-unused-parameter   -I. -I/home/jiesamb/Env/vapoursynth/include/vapoursynth -o detection.o src/detection.c
+        	  gcc -shared -fPIC  -o libwwxd.so wwxd.o detection.o" > Makefile
+      - make
 
-#   # 和便携包里的wwxd64可能不同
-#   # 但好歹是叫这个名儿吧
-#   - name: wwxd
-#     provide: libwwxd.so
-#     repo: https://github.com/dubhater/vapoursynth-wwxd.git
+  - name: mpls
+    provide: libreadmpls.so
+    repo: https://github.com/HomeOfVapourSynthEvolution/VapourSynth-ReadMpls.git
+    version: r5
 
-#   # 没有找到repo
-#   - name: minsrp
-#     skip: true
-#     provide:
-#     repo:
-#     version:
+  - name: remapframes
+    provide: libremapframes.so
+    repo: https://github.com/Irrational-Encoding-Wizardry/Vapoursynth-RemapFrames.git
+    version: v1.1
 
-#   # 看起来是nnedi3的cl版本
-#   # 之后研究
-#   - name: nnedi3cl
-#     skip: true
-#     provide:
-#     repo:
-#     version:
+  - name: tdeintmod
+    provide: libtdeintmod.so
+    repo: https://github.com/HomeOfVapourSynthEvolution/VapourSynth-TDeintMod.git
 
-#   - name: mpls
-#     provide: libreadmpls.so
-#     repo: https://github.com/HomeOfVapourSynthEvolution/VapourSynth-ReadMpls.git
-#     version: r5
+  - name: templinearapproximate
+    provide: libtemplinearapproximate.so
+    repo: https://bitbucket.org/mystery_keeper/templinearapproximate-vapoursynth.git
+    run:
+      - |
+        echo "all:
+        	  gcc -c -fPIC   -I. -I/home/jiesamb/Env/vapoursynth/include/vapoursynth -o main.o src/main.c
+        	  gcc -c -fPIC   -I. -I/home/jiesamb/Env/vapoursynth/include/vapoursynth -o processplane.o src/processplane.c
+        	  gcc -shared -fPIC  -o libtemplinearapproximate.so main.o processplane.o" > Makefile
+      - make
 
-#   - name: remapframes
-#     provide: libremapframes.so
-#     repo: https://github.com/Irrational-Encoding-Wizardry/Vapoursynth-RemapFrames.git
-#     version: v1.1
+  - name: tnlmeans
+    provide: libtnlmeans.so
+    repo: https://github.com/AmusementClub/VapourSynth-TNLMeans.git
+    version: v1.AC
 
+  - name: tonemap
+    provide: libtonemap.so
+    repo: https://github.com/ifb/vapoursynth-tonemap.git
+    version: R2
 
-#   # 仓库无人维护
-#   - name: tdeintmod
-#     provide: libtdeintmod.so
-#     repo: https://github.com/HomeOfVapourSynthEvolution/VapourSynth-TDeintMod.git
+  - name: ttempsmooth
+    provide: libttempsmooth.so
+    repo: https://github.com/HomeOfVapourSynthEvolution/VapourSynth-TTempSmooth.git
+    version: r4.1
 
-#   - name: templinearapproximate
-#     provide: libtemplinearapproximate.so
-#     repo: https://bitbucket.org/mystery_keeper/templinearapproximate-vapoursynth.git
-#     make: |
-#       echo "all:
-#       gcc -c -fPIC ${CFLAGS} ${CPPFLAGS} -I. $(pkg-config --cflags vapoursynth) -o main.o src/main.c
-#       gcc -c -fPIC ${CFLAGS} ${CPPFLAGS} -I. $(pkg-config --cflags vapoursynth) -o processplane.o src/processplane.c
-#       gcc -shared -fPIC ${LDFLAGS} -o lib${_plug}.so main.o processplane.o" > Makefile
+  - name: vcm
+    provide: libvcmod.so
+    repo: https://github.com/AmusementClub/vcm.git
 
-#   - name: tnlmeans
-#     provide: libtnlmeans.so
-#     repo: https://github.com/AmusementClub/VapourSynth-TNLMeans.git
-#     version: v1.AC
+  - name: vfrtocfr
+    provide: libvfrtocfr.so
+    repo: https://github.com/AmusementClub/Vapoursynth-VFRToCFR.git
 
-#   - name: tonemap
-#     provide: libtonemap.so
-#     repo: https://github.com/ifb/vapoursynth-tonemap.git
-#     version: R2
+  - name: delogo
+    provide: libdelogo.so
+    repo: https://github.com/HomeOfVapourSynthEvolution/VapourSynth-DeLogo.git
+    version: v0.4
+    run:
+      - ./configure
+      - make
 
-#   - name: ttempsmooth
-#     provide: libttempsmooth.so
-#     repo: https://github.com/HomeOfVapourSynthEvolution/VapourSynth-TTempSmooth.git
-#     version: r4.1
-
-#   # 仓库无人维护
-#   - name: vaguedenoiser
-#     provide: libvaguedenoiser.so
-#     repo: https://github.com/HomeOfVapourSynthEvolution/VapourSynth-VagueDenoiser.git
-
-#   - name: vcm
-#     provide: libvcmod.so
-#     repo: https://github.com/AmusementClub/vcm.git
-
-#   - name: vfrtocfr
-#     provide: libvfrtocfr.so
-#     repo: https://github.com/AmusementClub/Vapoursynth-VFRToCFR.git
-
-#   - name: delogo
-#     provide: libdelogo.so
-#     repo: https://github.com/HomeOfVapourSynthEvolution/VapourSynth-DeLogo.git
-#     version: v0.4
-
-#   # 没有找到repo
-#   - name: avsreader
-#     skip: true
-
-#   - name: vscube
-#     skip: true
-
-#   - name: vsfiltermod
-#     skip: true
-
-#   - name: vsncnn
-#     skip: true
-
-#   - name: nlm_cuda
-#     skip: true
-
-#   - name: nlm_ispc
-#     skip: true
-
-#   - name: vsort
-#     skip: true
-
-#   - name: vsov
-#     skip: true
-
-#   # 仓库无人维护
-#   - name: vsrawsource
-#     provide: libvsrawsource.so
-#     repo: https://github.com/HolyWu/vsrawsource.git
-#     version: 20191105
-
-#   - name: vstrt
-#     skip: true
-
-#   - name: w3fdif
-#     provide: libw3fdif.so
-#     repo: https://github.com/HomeOfVapourSynthEvolution/VapourSynth-W3FDIF.git
-
-#   # 编译过程相对复杂
-#   # 详见aur
-#   - name: wnnm
-#     repo: https://github.com/AmusementClub/VapourSynth-WNNM.git
-#     skip: true
-
-#   # 仓库无人维护
-#   - name: yadifmod
-#     provide: libyadifmod.so
-#     repo: https://github.com/HomeOfVapourSynthEvolution/VapourSynth-Yadifmod.git
+  - name: yadifmod
+    provide: libyadifmod.so
+    repo: https://github.com/HomeOfVapourSynthEvolution/VapourSynth-Yadifmod.git
 
 
 #   # 编译看起来有点复杂，之后搞
@@ -639,3 +575,66 @@ packages:
   # - name: gradcurve
   #   provide: libgradcurve.so
   #   repo: https://github.com/Jieiku/GradCurve.git
+
+#   # 娱乐部的改进版不一样
+#   # 需要研究下怎么编译
+#   # 只编译了原版
+#   - name: vs-placebo
+#     provide: libvs_placebo.so
+#     repo: https://github.com/Lypheo/vs-placebo.git
+
+#   # 没有找到repo
+#   - name: minsrp
+#     skip: true
+#     provide:
+#     repo:
+#     version:
+
+#   # 没有找到repo
+#   - name: avsreader
+#     skip: true
+
+#   - name: vscube
+#     skip: true
+
+#   - name: vsfiltermod
+#     skip: true
+
+#   - name: vsncnn
+#     skip: true
+
+#   - name: nlm_cuda
+#     skip: true
+
+#   - name: nlm_ispc
+#     skip: true
+
+#   - name: vsort
+#     skip: true
+
+#   - name: vsov
+#     skip: true
+
+
+#   - name: vstrt
+#     skip: true
+
+  # 仓库无人维护
+  # - name: vaguedenoiser
+  #   provide: libvaguedenoiser.so
+  #   repo: https://github.com/HomeOfVapourSynthEvolution/VapourSynth-VagueDenoiser.git
+
+  # - name: vsrawsource
+  #   provide: libvsrawsource.so
+  #   repo: https://github.com/HolyWu/vsrawsource.git
+  #   version: 20191105
+
+  # - name: w3fdif
+  #   provide: libw3fdif.so
+  #   repo: https://github.com/HomeOfVapourSynthEvolution/VapourSynth-W3FDIF.git
+
+  # - name: wnnm
+  #   repo: https://github.com/AmusementClub/VapourSynth-WNNM.git
+  #   run:
+  #     - cmake -S . -B build -D CMAKE_BUILD_TYPE=Release -D MKL_LINK=static -D MKL_THREADING=sequential -D MKL_INTERFACE=lp64
+  #     - cmake --build build
