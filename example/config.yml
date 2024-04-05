@@ -89,12 +89,12 @@ packages:
   - name: akarin
     provide: libakarin.so
     repo: https://github.com/AkarinVS/vapoursynth-plugin.git
-    branch: 0.96
+    version: 0.96
     dependencies:
-      - llvm15
-      - llvm15-libs
+      - llvm14
+      - llvm14-libs
     env:
-      LLVM_CONFIG: /usr/bin/llvm-config-15
+      LLVM_CONFIG: /usr/bin/llvm-config-14
     run:
       - meson setup build --buildtype=release -Dstatic-llvm=false
       - ninja -C build
@@ -526,6 +526,19 @@ packages:
       - cmake -S . -B build -G Ninja -LA -D CMAKE_BUILD_TYPE=Release -D VAPOURSYNTH_INCLUDE_DIRECTORY="/home/jiesamb/Env/vapoursynth/include/vapoursynth" -D CMAKE_CXX_COMPILER=g++-12 -D CMAKE_CXX_FLAGS="-Wall -ffast-math -march=x86-64-v3"
       - cmake --build build
 
+  - name: iccconvert
+    provide: libiccc.so
+    dependencies: gcc-objc
+    repo: https://github.com/YomikoR/VapourSynth-ICCConvert.git
+    version: 5.2
+
+  - name: vsstubs
+    repo: https://github.com/SaltyChiang/VapourSynth-Plugins-Stub-Generator.git
+    version: R57Classic
+    version_is_branch: true
+    run:
+      - pip3 install ./vsstubs
+      - python3 -m vsstubs install
 
 #   # 编译看起来有点复杂，之后搞
 #   - name: ffms2
